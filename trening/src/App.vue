@@ -1,28 +1,23 @@
 <template>
-  <div id="app" ref="bla">
-    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <HelloWorld
-     :msg="msg"
-     ime="šime"
-     @promijeniMSG="funk"/>
+  <div id="app">
     <VueMap ref="vueMap" />
+    <ButtonGroup/>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 import VueMap from "./components/VueMap.vue";
+import ButtonGroup from "./components/ButtonGroup.vue";
 
 export default {
   data() {
     return {
-      msg: "BLA BLA",
     };
   },
   name: "App",
   components: {
-    HelloWorld,
     VueMap,
+    ButtonGroup,
   },
   mounted() {
   },
@@ -43,6 +38,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-<div style="border: 5px solid red; height: '500px'">
+<div>
   <vl-map
     :load-tiles-while-animating="true"
     :load-tiles-while-interacting="true"
-    style="height: 400px"
+    style="position: absolute;"
     ref="mapRef"
   >
     <vl-view
@@ -16,8 +16,6 @@
     <vl-layer-tile id="osm">
       <vl-source-osm></vl-source-osm>
     </vl-layer-tile>
-    <b-button :style="{left: '50px', position:'absolute', zIndex:100}"
-    @click="zoomChange">MAPCOMPONENT</b-button>
   </vl-map>
 </div>
 </template>

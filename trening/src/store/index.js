@@ -4,9 +4,16 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
+  state: () => ({
+    sidebar: '',
+  }),
+
+  getters:{},
+  mutations: {
+    setActiveSidebar(state, sidebar) {
+      state.sidebar = sidebar
+    }
+  },
   actions: {},
   modules: {},
 });
