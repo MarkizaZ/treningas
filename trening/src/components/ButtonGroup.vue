@@ -2,11 +2,11 @@
     <div>
     <b-button-group vertical style="bottom: 30px; right:30px; position:absolute">
 
-        <b-button v-b-toggle.sidebar-1><b-icon-layers-half></b-icon-layers-half></b-button>
-        <b-sidebar  id="sidebar-1" title="Layers" shadow>
+        <b-button @click="sidebarOn('sidebarLayers')"><b-icon-layers-half></b-icon-layers-half></b-button>
+        <b-sidebar :visible="isSidebarLayersOn"  id="sidebarLayers" title="Layers" shadow>
             <div class="px-3 py-2"></div>
-
-            <b-card style="padding:5px"
+ <!-- /*bez tocke kod striga ostalo (property) :  */ -->
+            <b-card :style="{padding:'5px',}" 
                 overlay
                 img-src="https://picsum.photos/900/250/?image=3"
                 img-alt="Card Image"
@@ -15,7 +15,7 @@
                 <b-button>Open</b-button>
             </b-card>
 
-            <b-card style="padding:5px"
+            <b-card :style="{padding:'5px',}"
                 overlay
                 img-src="https://picsum.photos/900/250/?image=3"
                 img-alt="Card Image"
@@ -40,3 +40,29 @@
 
     </div>
 </template>
+
+<script>
+
+
+export default {
+  data() {
+    return {
+    };
+  },
+  computed: {
+    isSidebarLayersOn () {
+        if(this.$store.state.sidebar==='sidebarLayers'){
+            return true
+        }
+        else return false
+    }
+
+  },
+  methods: {
+    sidebarOn(activeSidebar) {
+        this.$store.commit('setActiveSidebar',activeSidebar)
+    }
+
+    }
+};
+</script>

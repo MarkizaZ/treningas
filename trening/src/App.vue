@@ -22,13 +22,10 @@ export default {
   mounted() {
   },
   methods: {
-    funk(e) {
-      console.log(this.$refs)
-    
-      this.msg = e;
-    },
-  },
-};
+  
+    }
+  
+  };
 </script>
 
 <style>
