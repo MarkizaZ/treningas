@@ -1,57 +1,70 @@
 <template>
     <div>
-    <b-button-group vertical style="bottom: 30px; right:30px; position:absolute">
+        <b-dropdown  id="dropdown-buttons" text="Tools" class="m-2" menu-class="w-100" style="bottom: 30px; right:80px; position:absolute">
 
-        <b-button @click="sidebarOn('sidebarLayers')"><b-icon-layers-half></b-icon-layers-half></b-button>
-        <b-sidebar :visible="isSidebarLayersOn"  id="sidebarLayers" title="Layers" shadow>
-            <div class="px-3 py-2"></div>
- <!-- /*bez tocke kod striga ostalo (property) :  */ -->
-            <b-card :style="{padding:'5px',}" 
-                overlay
-                img-src="https://picsum.photos/900/250/?image=3"
-                img-alt="Card Image"
-               
-            >
-                <b-button>Open</b-button>
-            </b-card>
+            <b-dropdown-item-button> <b-button @click="sidebarOn('sidebarLayers')"><b-icon-layers-half></b-icon-layers-half></b-button>
+            </b-dropdown-item-button>
 
-            <b-card :style="{padding:'5px',}"
-                overlay
-                img-src="https://picsum.photos/900/250/?image=3"
-                img-alt="Card Image"
-               
-            >
-                <b-button href="#">Open</b-button>
-            </b-card>
-                
+            <b-dropdown-item-button> <b-button  @click="sidebarOn('sidebarGlobe')"><b-icon-globe></b-icon-globe></b-button>
+            </b-dropdown-item-button>
+           
+            <b-dropdown-item-button> <b-button  @click="sidebarOn('sidebarPen')"><b-icon-pencil></b-icon-pencil></b-button>    
+            </b-dropdown-item-button>
 
+        </b-dropdown>
+        <b-sidebar v-for="bar in sidebars" :key="bar" :visible="$store.state.sidebar===bar">
+            <div>{{bar}}</div>
+            <div v-if="bar==='sidebarLayers'">aaaaaaaa</div>
+            <div v-if="bar==='sidebarGlobe'">bbbbbbbbb</div>
+            <div v-if="bar==='sidebarPen'">cccccccccc</div>
+            <SidebarLayers v-if="bar ==='sidebarLayers'" />
+        </b-sidebar>
+<!-- 
+        <b-sidebar :visible="isSidebarLayersOn" id="sidebarLayers" title="Layers" shadow>
+                    <div class="px-3 py-2"></div>
         </b-sidebar>
 
-        <b-button v-b-toggle.sidebar-2><b-icon-globe></b-icon-globe></b-button>
-        <b-sidebar id="sidebar-2" title="Map" shadow>
-            <div class="px-3 py-2"></div>
+        <b-sidebar :visible="isSidebarLayersOn2" id="sidebarGlobe" title="Map" shadow>
+                    <div class="px-3 py-2"></div>
         </b-sidebar>
-
-        <b-button v-b-toggle.sidebar-3><b-icon-pencil></b-icon-pencil></b-button>
-        <b-sidebar id="sidebar-3" title="Draw" shadow>
-            <div class="px-3 py-2"></div>
-        </b-sidebar>
-    </b-button-group>
-
+        
+        <b-sidebar :visible="isSidebarLayersOn3" id="sidebarPen" title="Draw" shadow>
+                    <div class="px-3 py-2"></div>
+        </b-sidebar> -->
     </div>
 </template>
 
 <script>
 
-
+import SidebarLayers from "./SidebarLayers.vue"
+import {mapState} from 'vuex'
 export default {
+    components: {
+        SidebarLayers
+    },
   data() {
     return {
     };
   },
   computed: {
+    ...mapState('sidebars'),
+    sidebars(){
+        return this.$store.state.sidebars
+    },
     isSidebarLayersOn () {
+        if(this.$store.state.sidebar==='sidebarGlobe'){
+            return true
+        }
+        else return false
+    },
+    isSidebarLayersOn2 () {
         if(this.$store.state.sidebar==='sidebarLayers'){
+            return true
+        }
+        else return false
+    },
+     isSidebarLayersOn3 () {
+        if(this.$store.state.sidebar==='sidebarPen'){
             return true
         }
         else return false

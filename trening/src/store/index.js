@@ -6,7 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: () => ({
     sidebar: '',
-    boja:'red'
+    sidebars: ['sidebarLayers', 'sidebarGlobe', 'sidebarPen'],
+    boja:'red',
+    crtanje: false,
+    text: ''
   }),
 
   getters:{},
@@ -19,6 +22,9 @@ export default new Vuex.Store({
     },
     stBoja(state, novaBoja){
       state.boja=novaBoja
+    },
+    setText(state, text){
+      state.text=text
     }
 
   },
