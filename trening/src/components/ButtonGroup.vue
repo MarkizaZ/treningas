@@ -8,73 +8,43 @@
             <b-dropdown-item-button> <b-button  @click="sidebarOn('sidebarGlobe')"><b-icon-globe></b-icon-globe></b-button>
             </b-dropdown-item-button>
            
-            <b-dropdown-item-button> <b-button  @click="sidebarOn('sidebarPen')"><b-icon-pencil></b-icon-pencil></b-button>    
+            <b-dropdown-item-button> <b-button><b-icon-pencil></b-icon-pencil></b-button>    
             </b-dropdown-item-button>
 
         </b-dropdown>
-        <b-sidebar v-for="bar in sidebars" :key="bar" :visible="$store.state.sidebar===bar">
-            <div>{{bar}}</div>
-            <div v-if="bar==='sidebarLayers'">aaaaaaaa</div>
-            <div v-if="bar==='sidebarGlobe'">bbbbbbbbb</div>
-            <div v-if="bar==='sidebarPen'">cccccccccc</div>
+        <b-sidebar no-header width="40%"
+        :title="bar" v-for="bar in sidebars" :key="bar" :visible="$store.state.sidebar===bar">
             <SidebarLayers v-if="bar ==='sidebarLayers'" />
+            <SidebarGlobe :style="{paddingTop:'50px'}" v-if="bar ==='sidebarGlobe'" />
         </b-sidebar>
-<!-- 
-        <b-sidebar :visible="isSidebarLayersOn" id="sidebarLayers" title="Layers" shadow>
-                    <div class="px-3 py-2"></div>
-        </b-sidebar>
-
-        <b-sidebar :visible="isSidebarLayersOn2" id="sidebarGlobe" title="Map" shadow>
-                    <div class="px-3 py-2"></div>
-        </b-sidebar>
-        
-        <b-sidebar :visible="isSidebarLayersOn3" id="sidebarPen" title="Draw" shadow>
-                    <div class="px-3 py-2"></div>
-        </b-sidebar> -->
     </div>
 </template>
 
 <script>
 
 import SidebarLayers from "./SidebarLayers.vue"
+import SidebarGlobe from "./SidebarGlobe.vue"
 import {mapState} from 'vuex'
+
 export default {
     components: {
-        SidebarLayers
+        SidebarLayers,
+        SidebarGlobe
     },
   data() {
     return {
     };
   },
   computed: {
-    ...mapState('sidebars'),
+    ...mapState(['sidebars']),
     sidebars(){
         return this.$store.state.sidebars
     },
-    isSidebarLayersOn () {
-        if(this.$store.state.sidebar==='sidebarGlobe'){
-            return true
-        }
-        else return false
-    },
-    isSidebarLayersOn2 () {
-        if(this.$store.state.sidebar==='sidebarLayers'){
-            return true
-        }
-        else return false
-    },
-     isSidebarLayersOn3 () {
-        if(this.$store.state.sidebar==='sidebarPen'){
-            return true
-        }
-        else return false
-    }
-
   },
   methods: {
     sidebarOn(activeSidebar) {
-        this.$store.commit('setActiveSidebar',activeSidebar)
-    }
+      this.$store.commit('setActiveSidebar',activeSidebar)
+  },
 
     }
 };

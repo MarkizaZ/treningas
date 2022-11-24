@@ -12,7 +12,7 @@
       :center.sync="center"
       :rotation.sync="rotation"
     ></vl-view>
-    <vl-layer-vector>
+    <!-- <vl-layer-vector>
       <vl-layer-source ident="sourceVector"></vl-layer-source>
     </vl-layer-vector>
     <vl-interaction-draw
@@ -20,12 +20,12 @@
     type="LineString"
     >
 
-    </vl-interaction-draw>
+    </vl-interaction-draw> -->
 
     <vl-layer-tile id="osm">
       <vl-source-osm></vl-source-osm>
     </vl-layer-tile>
-  </vl-map>
+  </vl-map> 
 </div>
 </template>
 

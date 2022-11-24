@@ -9,6 +9,8 @@
 import VueMap from "./components/VueMap.vue";
 import ButtonGroup from "./components/ButtonGroup.vue";
 
+
+
 export default {
   data() {
     return {
@@ -20,11 +22,13 @@ export default {
     ButtonGroup,
   },
   mounted() {
+    console.log(this)
   },
   methods: {
-  
-    }
-  
+    sidebarOn(activeSidebar) {
+      this.$store.commit('setActiveSidebar',activeSidebar)
+  },
+    },
   };
 </script>
 

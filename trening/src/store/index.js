@@ -7,7 +7,6 @@ export default new Vuex.Store({
   state: () => ({
     sidebar: '',
     sidebars: ['sidebarLayers', 'sidebarGlobe', 'sidebarPen'],
-    boja:'red',
     crtanje: false,
     text: ''
   }),
@@ -20,11 +19,8 @@ export default new Vuex.Store({
       }
       else {state.sidebar = sidebar}
     },
-    stBoja(state, novaBoja){
-      state.boja=novaBoja
-    },
-    setText(state, text){
-      state.text=text
+    changeText(state, event){
+      state.text=event
     }
 
   },
