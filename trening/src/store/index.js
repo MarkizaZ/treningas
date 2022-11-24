@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: () => ({
     sidebar: '',
-    sidebars: ['sidebarLayers', 'sidebarGlobe', 'sidebarPen'],
+    sidebars: ['sidebarLayers', 'sidebarGlobe'],
     crtanje: false,
     text: ''
   }),

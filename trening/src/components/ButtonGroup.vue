@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-dropdown  id="dropdown-buttons" text="Tools" class="m-2" menu-class="w-100" style="bottom: 30px; right:80px; position:absolute">
-
+                
             <b-dropdown-item-button> <b-button @click="sidebarOn('sidebarLayers')"><b-icon-layers-half></b-icon-layers-half></b-button>
             </b-dropdown-item-button>
 
