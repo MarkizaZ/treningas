@@ -6,8 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: () => ({
     sidebar: '',
-    sidebars: ['sidebarLayers', 'sidebarGlobe'],
+    sidebars: ['sidebarLayers', 'sidebarGlobe','sidebarCrtanje'],
     crtanje: false,
+    snap:false,
+    modify:false,
     text: ''
   }),
 
@@ -19,9 +21,16 @@ export default new Vuex.Store({
       }
       else {state.sidebar = sidebar}
     },
-    changeText(state, event){
-      state.text=event
-    }
+    paliCrtanje(state){
+      state.crtanje = !state.crtanje
+    },
+    paliSnap (state){
+      state.snap = !state.snap
+    },
+    paliModify (state){
+      state.modify = !state.modify
+      console.log(state.modify)
+    },
 
   },
   actions: {},
