@@ -13,9 +13,10 @@
     </b-form-checkbox>
 
     <b-dropdown id="dropdown-1" text="Layers" class="m-md-2">
-        <b-dropdown-item>Layer 1</b-dropdown-item>
-        <b-dropdown-item>Layer 2</b-dropdown-item>
+        <b-dropdown-item v-for="layer in layers" :key="layer.name" 
+        @click="toggleLayer(layer.name)">{{layer.name}}</b-dropdown-item>
      </b-dropdown>
+     {{layer}}
   </div>
 </template>
 
@@ -44,6 +45,12 @@ export default {
     },
     modify(){
     return this.$store.state.modify
+    },
+    layer(){
+        return this.$store.state.layer
+    },
+    layers(){
+       return this.$store.state.layers
     }
 
   },
@@ -57,6 +64,9 @@ export default {
         toggleModify() {
             console.log('click')
         this.$store.commit('paliModify')
+    },
+        toggleLayer(layer){
+        this.$store.commit('setActiveLayer',layer) 
     }
 },
 }

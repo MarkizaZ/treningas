@@ -7,10 +7,17 @@ export default new Vuex.Store({
   state: () => ({
     sidebar: '',
     sidebars: ['sidebarLayers', 'sidebarGlobe','sidebarCrtanje'],
+    layers: [
+      {name: 'Layer1', color:'black'},
+      {name: 'Layer2', color:'red'},  
+      {name: 'Layer3', color:'green'},
+      {name: 'Layer4', color:'blue'},
+    ],
     crtanje: false,
     snap:false,
     modify:false,
-    text: ''
+    text: '',
+    layer:'Layer1',
   }),
 
   getters:{},
@@ -31,6 +38,9 @@ export default new Vuex.Store({
       state.modify = !state.modify
       console.log(state.modify)
     },
+    setActiveLayer(state, layer) {
+      state.layer = layer
+    }
 
   },
   actions: {},

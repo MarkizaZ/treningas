@@ -48,7 +48,6 @@ export default {
     sidebarOn(activeSidebar) {
       this.$store.commit('setActiveSidebar',activeSidebar)
   },
-
     }
 };
 </script>
