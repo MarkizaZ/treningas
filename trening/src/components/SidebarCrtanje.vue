@@ -1,13 +1,22 @@
 <template>
-  <div :style="{paddingTop:'90px'}">
-    <b-form-checkbox  :checked="crtanje" @change="toggleDraw()" >
-      Crtanje
-    </b-form-checkbox>
+  <div :style="{paddingTop:'90px', position:'center'}">
+
+    <b-button @click="toggleDraw()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-pencil></b-icon-pencil></b-button> 
+
+    <b-dropdown id="dropdown-dropright" dropright text="Drop-Right" variant="outline-secondary" class="m-2" :style="{padding:'0px, 100px'}">
+      <b-dropdown-item href="#">Action</b-dropdown-item>
+      <b-dropdown-item href="#">Another action</b-dropdown-item>
+      <b-dropdown-item href="#">Something else here</b-dropdown-item>
+    </b-dropdown>
+
+
+    
+
     Odabir crtanja
     <b-form-select :disabled="!crtanje" v-model="selected" @change="vrstaCrtanja(selected)" :options="options"></b-form-select>
 
     {{selected}}
-    <b-form-checkbox :checked="snap" @change="toggleSnap()" >
+    <b-form-checkbox :style="{paddingTop:'60px'}" :checked="snap" @change="toggleSnap()" >
       Snap
     </b-form-checkbox>
 
@@ -33,6 +42,7 @@ export default {
     },
   data() {
     return {    
+        myToggle: false,
         checked: false,
         selected: 'LineString',
         options: [
@@ -42,6 +52,19 @@ export default {
         ]
 
     };
+  },
+  watch: {
+    crtanje () {
+          if (this.$store.state.modify === this.$store.state.crtanje  && 
+          this.$store.state.modify === true )
+          this.$store.commit('paliModify')
+    },
+    modify () {
+          if (this.$store.state.modify === this.$store.state.crtanje  && 
+          this.$store.state.crtanje === true )
+          this.$store.commit('paliCrtanje')
+    },
+
   },
   computed: {
     sidebars(){
@@ -61,6 +84,9 @@ export default {
     },
     layers(){
        return this.$store.state.layers
+    },
+    btnStates() {
+       return this.buttons.map(btn => btn.state)
     }
 
   },
@@ -76,7 +102,6 @@ export default {
         this.$store.commit('paliSnap')
     },
         toggleModify() {
-            console.log('click')
         this.$store.commit('paliModify')
     },
         toggleLayer(layer){

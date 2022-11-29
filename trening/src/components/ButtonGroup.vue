@@ -12,11 +12,11 @@
             </b-dropdown-item-button>
 
         </b-dropdown>
-        <b-sidebar no-header 
-        :title="bar" v-for="bar in sidebars" :key="bar" :visible="$store.state.sidebar===bar">
+        <b-sidebar v-for="bar in sidebars" :key="bar" :width="bar ==='sidebarCrtanje' && '250px'" no-header 
+        :title="bar"  :visible="$store.state.sidebar===bar">
             <SidebarLayers v-if="bar ==='sidebarLayers'" />
             <SidebarGlobe :style="{paddingTop:'50px'}" v-if="bar ==='sidebarGlobe'" />
-            <SidebarCrtanje v-if="bar ==='sidebarCrtanje'" />
+            <SidebarCrtanje  v-if="bar ==='sidebarCrtanje'" />
         </b-sidebar>
     </div>
 </template>

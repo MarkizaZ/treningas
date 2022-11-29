@@ -20,7 +20,7 @@
     <vl-layer-vector v-for="layer in layers" :key="layer.name">
       <vl-source-vector :ident="layer.name" :features.sync="features[layer.name]">
           <vl-style>          
-              <vl-style-fill :color="layer.color"></vl-style-fill>
+              <vl-style-fill :color="layer.color2"></vl-style-fill>
               <vl-style-stroke :color="layer.color"></vl-style-stroke>
           </vl-style>
       </vl-source-vector>

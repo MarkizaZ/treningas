@@ -8,10 +8,10 @@ export default new Vuex.Store({
     sidebar: '',
     sidebars: ['sidebarLayers', 'sidebarGlobe','sidebarCrtanje'],
     layers: [
-      {name: 'Layer1', color:'black'},
-      {name: 'Layer2', color:'red'},  
-      {name: 'Layer3', color:'green'},
-      {name: 'Layer4', color:'blue'},
+      {name: 'Layer1', color:'black', color2:"grey"},
+      {name: 'Layer2', color:'red', color2:"yellow"},  
+      {name: 'Layer3', color:'green', color2:"blue"},
+      {name: 'Layer4', color:'blue', color2:"green"},
     ],
     crtanje: false,
     vrstaCrtanja:'LineString',
@@ -44,7 +44,7 @@ export default new Vuex.Store({
     },
     setActiveLayer(state, layer) {
       state.layer = layer
-    }
+    },
 
   },
   actions: {},
