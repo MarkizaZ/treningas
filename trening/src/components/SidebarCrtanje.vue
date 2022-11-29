@@ -1,9 +1,12 @@
 <template>
   <div :style="{paddingTop:'90px'}">
-    <b-form-checkbox :checked="crtanje" @change="toggleDraw()" >
+    <b-form-checkbox  :checked="crtanje" @change="toggleDraw()" >
       Crtanje
     </b-form-checkbox>
+    Odabir crtanja
+    <b-form-select :disabled="!crtanje" v-model="selected" @change="vrstaCrtanja(selected)" :options="options"></b-form-select>
 
+    {{selected}}
     <b-form-checkbox :checked="snap" @change="toggleSnap()" >
       Snap
     </b-form-checkbox>
@@ -30,7 +33,14 @@ export default {
     },
   data() {
     return {    
-        checked: false
+        checked: false,
+        selected: 'LineString',
+        options: [
+          { value: 'LineString', text: 'Linije' },
+          { value: 'Polygon', text: 'Poligon' },
+          { value: 'Circle', text: 'Krug', }
+        ]
+
     };
   },
   computed: {
@@ -57,6 +67,10 @@ export default {
   methods: {
         toggleDraw() {
         this.$store.commit('paliCrtanje')
+    },
+        vrstaCrtanja(select) {
+          console.log("Drugi"+select)
+          this.$store.commit('izborCrtanja', select)
     },
         toggleSnap() {
         this.$store.commit('paliSnap')

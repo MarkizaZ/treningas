@@ -14,6 +14,7 @@ export default new Vuex.Store({
       {name: 'Layer4', color:'blue'},
     ],
     crtanje: false,
+    vrstaCrtanja:'LineString',
     snap:false,
     modify:false,
     text: '',
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     paliCrtanje(state){
       state.crtanje = !state.crtanje
+    },
+    izborCrtanja(state, select) {
+      state.vrstaCrtanja = select
     },
     paliSnap (state){
       state.snap = !state.snap

@@ -25,31 +25,22 @@
           </vl-style>
       </vl-source-vector>
     </vl-layer-vector>
-<!-- 
-    <vl-layer-vector>
 
-      <vl-source-vector ident="Layer2" :features.sync="features2"></vl-source-vector>
-          <vl-style>          
-              <vl-style-fill color="white"></vl-style-fill>
-              <vl-style-stroke color="red"></vl-style-stroke>
-          </vl-style>
-
-    </vl-layer-vector> -->
     <vl-interaction-select 
     v-if="modify"
     v-bind:source="$store.state.layer"
     @select="select"
     />
       
-    <vl-interaction-draw v-if="crtanje"
+    <vl-interaction-draw v-if="paliCrtanje"
     v-bind:source="$store.state.layer"
-    type="LineString"
+    v-bind:type="$store.state.vrstaCrtanja"
     />
     <vl-interaction-snap v-if="snap"
      v-bind:source="$store.state.layer" />
-<!-- 
+
     <VlInteractionModify v-if="modify"
-     v-bind:source="$store.state.layer"/> -->
+     v-bind:source="$store.state.layer"/>
 
   </vl-map> 
 </div>
@@ -81,8 +72,11 @@ export default {
     console.log(this.$refs.mapRef.getInteractions())
   },
   computed: {
-        crtanje() {
+        paliCrtanje() {
       return this.$store.state.crtanje
+    },
+        vrstaCrtanja() {
+      return this.$store.state.vrstaCrtanja
     },
         snap() {
       return this.$store.state.snap
