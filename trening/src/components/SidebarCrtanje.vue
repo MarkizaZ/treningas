@@ -1,34 +1,56 @@
 <template>
-  <div :style="{paddingTop:'90px', position:'center'}">
+  <div>
 
-    <b-button @click="toggleDraw()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-pencil></b-icon-pencil></b-button> 
-
-    <b-dropdown id="dropdown-dropright" dropright text="Drop-Right" variant="outline-secondary" class="m-2" :style="{padding:'0px, 100px'}">
-      <b-dropdown-item href="#">Action</b-dropdown-item>
-      <b-dropdown-item href="#">Another action</b-dropdown-item>
-      <b-dropdown-item href="#">Something else here</b-dropdown-item>
-    </b-dropdown>
+    <div class="divclass">
+      <b-button v-b-tooltip.hover.noninteractive title="Toggle draw (press Shift for Fehand Draw) " @click="toggleDraw()" :pressed=$store.state.crtanje variant="outline-secondary" > <b-icon-pencil></b-icon-pencil></b-button> 
+    </div>
 
 
-    
+    <div class="divclass2">
+      <b-dropdown v-b-tooltip.hover.noninteractive title="Draw seect" :disabled="!crtanje"  id="dropdown-dropright" dropright no-caret boundary="window" class="m-2" offset="-13">
+        <template #button-content>
+          <b-icon :icon="$store.state.ikona"></b-icon>
+        </template>
+         <b-button v-b-tooltip.hover.noninteractive title="Line draw" class="m-1"  @click="vrstaIkone('pencil-square');vrstaCrtanja('LineString')" variant="outline-secondary">
+            <b-icon-pencil-square></b-icon-pencil-square></b-button>
+          <b-button v-b-tooltip.hover.noninteractive title="Polygon draw" class="m-1" @click="vrstaIkone('hexagon');vrstaCrtanja('Polygon')" variant="outline-secondary">
+            <b-icon-hexagon></b-icon-hexagon></b-button>
+          <b-button v-b-tooltip.hover.noninteractive title="Circle draw" class="m-1" @click="vrstaIkone('circle');vrstaCrtanja('Circle')" variant="outline-secondary">
+            <b-icon-circle></b-icon-circle></b-button>
+      </b-dropdown>
+     </div>
 
-    Odabir crtanja
-    <b-form-select :disabled="!crtanje" v-model="selected" @change="vrstaCrtanja(selected)" :options="options"></b-form-select>
+     <div class="divclass2">
+      <b-button v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
+     </div>
 
-    {{selected}}
-    <b-form-checkbox :style="{paddingTop:'60px'}" :checked="snap" @change="toggleSnap()" >
-      Snap
-    </b-form-checkbox>
+     <div class="divclass2">
+      <b-button v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :pressed.sync="myToggle2" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
+     </div>
 
-    <b-form-checkbox :checked="modify" @change="toggleModify()" >
-      Modify
-    </b-form-checkbox>
+     <div class="divclass2">
+      <b-button v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed=$store.state.modify variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
+     </div>
 
-    <b-dropdown id="dropdown-1" text="Layers" class="m-md-2">
+
+    <b-dropdown id="dropdown-1" size="sm" class="m-md-1" boundary="window" dropright no-caret>
+      <template #button-content>
+          <b-icon-layers ></b-icon-layers>
+          <div>
+          {{layer}}
+        </div>
+      </template>
         <b-dropdown-item v-for="layer in layers" :key="layer.name" 
-        @click="toggleLayer(layer.name)">{{layer.name}}</b-dropdown-item>
+        @click="toggleLayer(layer.name)">{{layer.name}}
+        </b-dropdown-item>
      </b-dropdown>
-     {{layer}}
+
+     <b-button @click="red('black')" >Black</b-button>
+     <b-button @click="red('red')" >Red</b-button>
+     <b-button @click="red('green')" >Green</b-button>
+     <b-button @click="red('blue')" >Blue</b-button>
+
+
   </div>
 </template>
 
@@ -43,6 +65,7 @@ export default {
   data() {
     return {    
         myToggle: false,
+        myToggle2: false,
         checked: false,
         selected: 'LineString',
         options: [
@@ -87,6 +110,9 @@ export default {
     },
     btnStates() {
        return this.buttons.map(btn => btn.state)
+    },
+    ikona () {
+      return this.$store.state.ikona
     }
 
   },
@@ -94,9 +120,11 @@ export default {
         toggleDraw() {
         this.$store.commit('paliCrtanje')
     },
-        vrstaCrtanja(select) {
-          console.log("Drugi"+select)
-          this.$store.commit('izborCrtanja', select)
+        vrstaCrtanja(selectcrt) {
+          this.$store.commit('izborCrtanja', selectcrt)
+    },
+        toggleSelect() {
+        this.$store.commit('paliSelect')
     },
         toggleSnap() {
         this.$store.commit('paliSnap')
@@ -106,7 +134,31 @@ export default {
     },
         toggleLayer(layer){
         this.$store.commit('setActiveLayer',layer) 
+    },
+        vrstaIkone(vrsta) {
+          this.$store.commit('icon',vrsta) 
+    },
+        red(boja) {
+        this.$store.commit('boja',boja) 
     }
 },
 }
 </script>
+
+<style>
+  .divclass {
+    padding-top: 80px;
+    position:center;
+  }
+  .divclass2 {
+    padding: 5px;
+    position:center;
+  }
+  #dropdown-dropright > ul
+  { background-color: rgba(255, 0, 0, 0);
+    border: none }
+    #dropdown-dropright > ul > button {
+      background-color: white;
+      border: '1px solid black'
+    }
+</style>

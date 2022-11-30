@@ -12,7 +12,7 @@
             </b-dropdown-item-button>
 
         </b-dropdown>
-        <b-sidebar v-for="bar in sidebars" :key="bar" :width="bar ==='sidebarCrtanje' && '250px'" no-header 
+        <b-sidebar v-for="bar in sidebars" :key="bar" :width="bar ==='sidebarCrtanje' && '100px'" no-header 
         :title="bar"  :visible="$store.state.sidebar===bar">
             <SidebarLayers v-if="bar ==='sidebarLayers'" />
             <SidebarGlobe :style="{paddingTop:'50px'}" v-if="bar ==='sidebarGlobe'" />

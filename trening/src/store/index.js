@@ -8,17 +8,21 @@ export default new Vuex.Store({
     sidebar: '',
     sidebars: ['sidebarLayers', 'sidebarGlobe','sidebarCrtanje'],
     layers: [
-      {name: 'Layer1', color:'black', color2:"grey"},
-      {name: 'Layer2', color:'red', color2:"yellow"},  
-      {name: 'Layer3', color:'green', color2:"blue"},
-      {name: 'Layer4', color:'blue', color2:"green"},
+      {name: 'Layer 1'},
+      {name: 'Layer 2'},  
+      {name: 'Layer 3'},
+      {name: 'Layer 4'},
     ],
     crtanje: false,
     vrstaCrtanja:'LineString',
+    selectcrt:false,
+    select:false,
     snap:false,
     modify:false,
+    boja: 'black',
     text: '',
-    layer:'Layer1',
+    layer:'Layer 1',
+    ikona: 'pencil-square'
   }),
 
   getters:{},
@@ -32,8 +36,11 @@ export default new Vuex.Store({
     paliCrtanje(state){
       state.crtanje = !state.crtanje
     },
-    izborCrtanja(state, select) {
-      state.vrstaCrtanja = select
+    izborCrtanja(state, selectcrt) {
+      state.vrstaCrtanja = selectcrt
+    },
+    paliSelect(state) {
+      state.select = !state.select
     },
     paliSnap (state){
       state.snap = !state.snap
@@ -45,6 +52,12 @@ export default new Vuex.Store({
     setActiveLayer(state, layer) {
       state.layer = layer
     },
+    icon (state, vrsta) {
+      state.ikona = vrsta
+    },
+    boja (state, boja ) {
+      state.boja = boja
+    }
 
   },
   actions: {},
