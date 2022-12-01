@@ -6,12 +6,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: () => ({
     sidebar: '',
-    sidebars: ['sidebarLayers', 'sidebarGlobe','sidebarCrtanje'],
+    sidebars: ['sidebarLayers', 'sidebarGlobe'],
+    toolbar: false,
     layers: [
-      {name: 'Layer 1'},
-      {name: 'Layer 2'},  
-      {name: 'Layer 3'},
-      {name: 'Layer 4'},
+      {name: 'Layer 1', geomType:'Point'},
+      {name: 'Layer 2', geomType:'LineString'},  
+      {name: 'Layer 3', geomType:'Polygon'},
+      {name: 'Layer 4', geomType:'Circle'},
     ],
     crtanje: false,
     vrstaCrtanja:'LineString',
@@ -20,9 +21,13 @@ export default new Vuex.Store({
     snap:false,
     modify:false,
     boja: 'black',
+    boja2: 'green',
+    bojaIkone:'dark',
+    bojaIkone2:'secondary',
     text: '',
     layer:'Layer 1',
-    ikona: 'pencil-square'
+    ikona: 'pencil-square',
+    buttons: false,
   }),
 
   getters:{},
@@ -57,6 +62,24 @@ export default new Vuex.Store({
     },
     boja (state, boja ) {
       state.boja = boja
+    },
+    ikonab (state, boja) {
+      state.bojaIkone = boja
+    },
+    setActiveToolbar (state) {
+      state.toolbar = !state.toolbar
+      if(state.toolbar===false){
+        state.crtanje = false
+      }
+    },
+    fillB (state, bojaF) {
+      state.boja2 = bojaF
+    },
+    ikonabF (state, boja) {
+      state.bojaIkone2 = boja
+    },
+    toggleButtons (state) {
+      state.buttons = !state.buttons
     }
 
   },

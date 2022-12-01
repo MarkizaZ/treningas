@@ -5,7 +5,8 @@
     :load-tiles-while-interacting="true"
     style="position: absolute;"
     ref="mapRef"
-    @click="bla"
+    :default-controls="{zoom: false}"
+    :default-interactions="{shiftDragZoom:false}"
   >
     <vl-view
        ref="viewRef"
@@ -17,14 +18,9 @@
       <vl-source-osm />
     </VlLayerTile>
 
-    <vl-layer-vector v-for="layer in layers" :key="layer.name">
+    <vl-layer-vector v-for="layer in layers" ref="layerRef" :key="layer.name">
       <vl-source-vector :ident="layer.name" :features.sync="features[layer.name]">
-          <!-- <vl-style>          
-              <vl-style-fill :color="$store.state.boja"></vl-style-fill>
-              <vl-style-stroke :color="$store.state.boja"></vl-style-stroke>
-          </vl-style> -->
-          <vl-style-func :function="styleFucnction">
-            
+          <vl-style-func :function="styleFucnction">  
           </vl-style-func>
       </vl-source-vector>
     </vl-layer-vector>
@@ -47,8 +43,8 @@
      v-bind:source="$store.state.layer"/>
 
      <VlInteractionSelect v-if="select"
-     hitTolerance= 4
-     multi=true
+     :hitTolerance="4"
+     :multi='true'
       />
 
   </vl-map> 
@@ -61,7 +57,7 @@ import {cloneDeep as _cloneDeep} from 'lodash'
 import Vue from "vue";
 import VueLayers from "vuelayers";
 import "vuelayers/dist/vuelayers.css"; // needs css-loader
-import { Fill, Stroke, Style } from 'ol/style'
+import { Fill, Stroke, Style, Circle } from 'ol/style'
 
 Vue.use(VueLayers);
 export default {
@@ -79,7 +75,6 @@ export default {
     });
   }, 
   mounted(){
-    console.log(this.$refs.mapRef.getInteractions())
   },
   computed: {
       paliCrtanje() {
@@ -100,34 +95,40 @@ export default {
       layer() {
         return this.$store.state.layer
     },
-    layers () {
+      layers () {
       return this.$store.state.layers
     },
-    boja () {
+      boja () {
       return this.$store.state.boja
+    },
+      boja2 () {
+      return this.$store.state.boja2
     },
 
   },
   methods: {
     zoomChange (){
-        console.log('aaaaaaaaaaaaaaa')
         console.log(this.$refs.viewRef)
         console.log(this.$refs.mapRef)
     },
-    bla(){
-      console.log('bla')
-    },
-    krajCrtanja (e) {
-      console.log(e)
-      e.feature.set('color', this.boja)
+      krajCrtanja (e) {
+        console.log(e)
+        e.feature.set('color', this.boja)
+        e.feature.set('color2', this.boja2)
     },
     styleFucnction (feature) {
       const color = feature.get('color')
+      const color2 = feature.get('color2')
+      const fill = new Fill({color: color2})
+      const stroke = new Stroke({color: color})
       return [
         new Style({
-           fill: new Fill({color: color}),
-           stroke: new Stroke({color: color})})];
+           image:new Circle({fill, stroke, radius:3}),
+           fill,
+           stroke})];
     }
   }
 };
 </script>
+
+
