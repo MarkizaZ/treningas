@@ -1,5 +1,6 @@
 <template>
 <div>
+   {{layerGeomType}}
   <vl-map
     :load-tiles-while-animating="true"
     :load-tiles-while-interacting="true"
@@ -18,8 +19,8 @@
       <vl-source-osm />
     </VlLayerTile>
 
-    <vl-layer-vector v-for="layer in layers" ref="layerRef" :key="layer.name">
-      <vl-source-vector :ident="layer.name" :features.sync="features[layer.name]">
+    <vl-layer-vector v-for="layer in layers" ref="layerRef" :key="layer.value">
+      <vl-source-vector :ident="layer.value" :features.sync="features[layer.value]">
           <vl-style-func :function="styleFucnction">  
           </vl-style-func>
       </vl-source-vector>
@@ -33,7 +34,7 @@
       
     <vl-interaction-draw  v-if="paliCrtanje"
     v-bind:source="$store.state.layer"
-    v-bind:type="$store.state.vrstaCrtanja"
+    v-bind:type="layerGeomType"
     @drawend="krajCrtanja"
     />
     <vl-interaction-snap v-if="snap"
@@ -104,6 +105,12 @@ export default {
       boja2 () {
       return this.$store.state.boja2
     },
+      layerGeomType () {
+        const type = this.layers.find((item) => {
+          return this.layer === item.value
+        })
+        return type.geomType
+      }
 
   },
   methods: {

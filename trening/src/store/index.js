@@ -9,11 +9,21 @@ export default new Vuex.Store({
     sidebars: ['sidebarLayers', 'sidebarGlobe'],
     toolbar: false,
     layers: [
-      {name: 'Layer 1', geomType:'Point'},
-      {name: 'Layer 2', geomType:'LineString'},  
-      {name: 'Layer 3', geomType:'Polygon'},
-      {name: 'Layer 4', geomType:'Circle'},
+      { value: 'Layer 1', text: 'Layer 1', geomType: 'Point' },
+      { value: 'Layer 2', text: 'Layer 2', geomType: 'LineString' },
+      { value: 'Layer 3', text: 'Layer 3', geomType: 'Polygon' },
+      { value: 'Layer 4', text: 'Layer 4', geomType: 'Circle' }
     ],
+    array1: ['jedan', 'dva', 'tri', 'četiri', 'pet', 'šest' ],
+    array2: ['jedan 1', 'dva 2', 'tri 3', 'četiri 4', 'pet 5', 'šest 6' ],
+    array3: [31, 12, 63, 84, 5, 96, 73],
+    object1: { ime: 'aa', prezime: 'qq', dob: 21},
+    fromentriesPr: [
+    ['ime' ,'jedan'],
+    ['ime2' ,'jedan2'],
+    ['ime3' ,'jedan3']
+    ],
+    layer:'Layer 1',
     crtanje: false,
     vrstaCrtanja:'LineString',
     selectcrt:false,
@@ -21,13 +31,16 @@ export default new Vuex.Store({
     snap:false,
     modify:false,
     boja: 'black',
-    boja2: 'green',
+    boja2: 'grey',
     bojaIkone:'dark',
     bojaIkone2:'secondary',
     text: '',
-    layer:'Layer 1',
     ikona: 'pencil-square',
     buttons: false,
+    sideButton1:false,
+    sideButton2:false,
+    sideButton3:false,
+
   }),
 
   getters:{},
@@ -80,7 +93,22 @@ export default new Vuex.Store({
     },
     toggleButtons (state) {
       state.buttons = !state.buttons
-    }
+      if(state.sideButton1===true || state.sideButton2===true
+        || state.sideButton3 === true){
+        state.sideButton1 = false
+        state.sideButton2 = false
+        state.sideButton3 = false
+      }
+    },
+    toggleSideButton1 (state) {
+      state.sideButton1 = !state.sideButton1
+    },
+    toggleSideButton2 (state) {
+      state.sideButton2 = !state.sideButton2
+    },
+    toggleSideButton3 (state) {
+      state.sideButton3 = !state.sideButton3
+    },
 
   },
   actions: {},

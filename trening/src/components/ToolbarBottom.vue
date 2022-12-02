@@ -1,85 +1,69 @@
 <template>
     <div class="mainDiv">
        
-      <b-form-select v-model="selected2" :options="options2" 
-      :style="{position:'absolute', left:'50px', bottom:'20px', height:'25px', width:'120px'}"></b-form-select>
+      <b-form-select :value="$store.state.layer" :options="$store.state.layers" 
+        @input="toggleLayer" 
+      :style="{position:'absolute', left:'2%', bottom:'30%', height:'22px', width:'100px', fontSize:'13px'}"></b-form-select>
        
-      <b-button v-b-tooltip.hover.noninteractive title="Toggle draw (press Shift for Fehand Draw)" :style="{position:'absolute', left:'200px', bottom:'15px'}" 
+      <b-button v-b-tooltip.hover.noninteractive title="Toggle draw (press Shift for Fehand Draw)" size="sm" :style="{position:'absolute', left:'12%', bottom:'18%'}" 
       @click="toggleDraw()" :pressed=$store.state.crtanje variant="outline-secondary" > <b-icon-plus></b-icon-plus></b-button> 
 
 
 
-    <div :style="{position:'absolute', left:'260px', bottom:'7px'}" >
+    <div :style="{position:'absolute', left:'15.5%', bottom:'1%'}" >
       <b-dropdown v-b-tooltip.hover.noninteractive  title="Draw select" :disabled="!crtanje" 
-       droptop no-caret boundary="window" offset="2" class="drawSelectButton m-2" >
+       droptop no-caret boundary="window" offset="-5" size="sm" class="drawSelectButton m-2" >
         <template #button-content >
           <b-icon :icon="$store.state.ikona" ></b-icon>
         </template>
         <div >
-        <b-button  v-b-tooltip.hover.noninteractive id="but1"  title="Point draw" class="m-1" @click="vrstaIkone('dot');vrstaCrtanja('Point')" >
+        <b-button  v-b-tooltip.hover.noninteractive id="but1"  title="Point draw" class="m-1" size="sm" @click="vrstaIkone('dot');vrstaCrtanja('Point')" >
            <b-icon-dot></b-icon-dot> </b-button>
         </div>
         <div>
-        <b-button v-b-tooltip.hover.noninteractive title="Line draw" class="m-1"  @click="vrstaIkone('pencil-square');vrstaCrtanja('LineString')" >
+        <b-button v-b-tooltip.hover.noninteractive title="Line draw" class="m-1" size="sm"  @click="vrstaIkone('pencil-square');vrstaCrtanja('LineString')" >
             <b-icon-pencil-square></b-icon-pencil-square></b-button>
         </div>
         <div>
-        <b-button v-b-tooltip.hover.noninteractive title="Polygon draw" class="m-1" @click="vrstaIkone('hexagon');vrstaCrtanja('Polygon')" >
+        <b-button v-b-tooltip.hover.noninteractive title="Polygon draw" class="m-1" size="sm" @click="vrstaIkone('hexagon');vrstaCrtanja('Polygon')" >
             <b-icon-hexagon></b-icon-hexagon></b-button>
         </div>
         <div>
-        <b-button v-b-tooltip.hover.noninteractive title="Circle draw" class="m-1" @click="vrstaIkone('circle');vrstaCrtanja('Circle')" >
+        <b-button v-b-tooltip.hover.noninteractive title="Circle draw" class="m-1" size="sm" @click="vrstaIkone('circle');vrstaCrtanja('Circle')" >
             <b-icon-circle></b-icon-circle></b-button>
         </div>
       </b-dropdown>
     </div>
 
-      <b-button :style="{position:'absolute', left:'330px', bottom:'15px'}"  v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'20%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
 
-      <b-button :style="{position:'absolute', left:'395px', bottom:'15px'}"  v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :pressed.sync="myToggle2" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'24%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :pressed.sync="myToggle2" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
 
-      <b-button :style="{position:'absolute', left:'465px', bottom:'15px'}"  v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed=$store.state.modify variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
-
-
-
-    <div>
-    <b-dropdown id="dropdown-1" size="sm" class="m-2" boundary="window" droptop no-caret>
-      <template #button-content>
-          <b-icon-layers ></b-icon-layers>
-          <div>
-          {{layer}}
-        </div>
-      </template>
-        <b-dropdown-item v-for="layer in layers" :key="layer.name" 
-        @click="toggleLayer(layer.name)">{{layer.name}}
-        </b-dropdown-item>
-     </b-dropdown>
-    </div>
+      <b-button size="sm" :style="{position:'absolute', left:'28%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed=$store.state.modify variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
 
 
-
-    <div :style="{position:'absolute', left:'525px', bottom:'7px'}">
-    <b-dropdown id="dropdown-2"  class="drawSelectButton m-2" boundary="window" v-b-tooltip.hover.noninteractive title="Stroke color"
+    <div :style="{position:'absolute', left:'31.5%', bottom:'1%'}">
+    <b-dropdown id="dropdown-2"  class="drawSelectButton m-2" size="sm" boundary="window" v-b-tooltip.hover.noninteractive title="Stroke color"
      droptop no-caret :variant="$store.state.bojaIkone">
         <template #button-content >
          <b-icon-paint-bucket></b-icon-paint-bucket>
       </template>
-         <div> <b-button @click="red('black'), bikone('dark')" variant="dark" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
-         <div> <b-button @click="red('red'), bikone('danger')" variant="danger" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
-         <div> <b-button @click="red('green'), bikone('success')" variant="success" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
-         <div> <b-button @click="red('blue'), bikone('primary')" variant="primary" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="red('black'), bikone('dark')" variant="dark" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="red('red'), bikone('danger')" variant="danger" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="red('green'), bikone('success')" variant="success" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="red('blue'), bikone('primary')" variant="primary" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
      </b-dropdown>
     </div>
-    <div :style="{position:'absolute', left:'595px', bottom:'7px'}">
-         <b-dropdown id="dropdown-3"  class="drawSelectButton m-2" boundary="window" v-b-tooltip.hover.noninteractive title="Fill color"
+    <div :style="{position:'absolute', left:'35.5%', bottom:'1%'}">
+         <b-dropdown id="dropdown-3"  class="drawSelectButton m-2" size="sm" boundary="window" v-b-tooltip.hover.noninteractive title="Fill color"
           droptop no-caret :variant="$store.state.bojaIkone2">
         <template #button-content >
          <b-icon-paint-bucket></b-icon-paint-bucket>
       </template>
-         <div> <b-button @click="fill('grey'), bikone2('secondary')" variant="secondary" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
-         <div> <b-button @click="fill('red'), bikone2('danger')" variant="danger" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
-         <div> <b-button @click="fill('green'), bikone2('success')" variant="success" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
-         <div> <b-button @click="fill('lightblue'), bikone2('info')" variant="info" class="botun"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="fill('grey'), bikone2('secondary')" variant="secondary" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="fill('red'), bikone2('danger')" variant="danger" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="fill('green'), bikone2('success')" variant="success" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
+         <div> <b-button @click="fill('lightblue'), bikone2('info')" variant="info" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
      </b-dropdown>
     </div>
 
@@ -104,13 +88,6 @@ export default {
           { value: 'Polygon', text: 'Poligon' },
           { value: 'Circle', text: 'Krug', }
         ],
-        selected2: 'layer 1',
-        options2: [
-          { value: 'layer 1', text: 'Layer 1' },
-          { value: 'layer 2', text: 'Layer 2' },
-          { value: 'layer 3', text: 'Layer 3' },
-          { value: 'layer 4', text: 'Layer 4' }
-        ]
     };
   },
   watch: {
@@ -176,6 +153,7 @@ export default {
         this.$store.commit('paliModify')
     },
         toggleLayer(layer){
+          console.log(layer)
         this.$store.commit('setActiveLayer',layer) 
     },
         vrstaIkone(vrsta) {
@@ -203,8 +181,8 @@ export default {
         bottom: 0px;
         background-color:#c8d1d6;
         width: 100%;
-        height: 70px;
-        border-style: solid;
+        height: 50px;
+        border-top-style: solid;
         border: '1px  grey'
     }
    .drawSelectButton > ul

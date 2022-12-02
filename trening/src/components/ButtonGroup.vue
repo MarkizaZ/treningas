@@ -1,30 +1,55 @@
 <template>
     <div >
-      <div class="buttonDiv1" :style="{position:'absolute', right:'50px', bottom:'200px', width:'50px'}">
+      
+      <div :style="{position:'absolute', right:'50px', bottom:'150px', width:'300px', height:'152px'}">
+        
         <transition name="slide">
-         <div class="buttonDiv2" v-show='$store.state.buttons'>
-          <b-button squared :style="{width:'100%', height:'33.34%'}">c
-             <div :style="{marginLeft:'-100px', width:'50px', height:'20px', position:'relative', backgroundColor:'red'}">
-            </div> 
-          </b-button>
-          <b-button squared :style="{width:'100%', height:'33.34%'}">c</b-button>
-          <b-button squared :style="{width:'100%', height:'33.34%'}">c</b-button>
-         </div>
+          <div :style="{left:'0px', top:'0px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton1'>
+            <b-button class="botunSide" >d1</b-button>
+            <b-button  class="botunSide">d2</b-button>
+            <b-button  class="botunSide">d3</b-button>
+            <b-button  class="botunSide">d4</b-button>
+          </div>
+        </transition>
+        <transition name="slide">
+        <div :style="{ left:'0px', top:'40px', width:'75%', height:'25%', position:'absolute'}" v-show='$store.state.sideButton2'>
+            <b-button  class="botunSide">d1</b-button>
+            <b-button  class="botunSide">d2</b-button>
+            <b-button  class="botunSide">d3</b-button>
+            <b-button  class="botunSide">d4</b-button>
+        </div>
+        </transition>
+        <transition name="slide">
+        <div :style="{ left:'0px', top:'80px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton3'>
+            <b-button  class="botunSide">d1</b-button>
+            <b-button  class="botunSide">d2</b-button>
+            <b-button  class="botunSide">d3</b-button>
+            <b-button  class="botunSide">d4</b-button>
+        </div>
         </transition>
 
 
+        <!-- glavni botun-p -->
+        <div :style="{ width:'75px', height:'152px',  right:'-0px', bottom:'0px', position:'absolute'}">
 
+          <div :style="{width:'100%', right:'0px', top:'0px', position:'absolute'}">
+            <transition name="slide">
+              <div  v-show='$store.state.buttons'>
+                <b-button  @click="toggleSideButton1()" :style="{width:'100%', height:'25%', margin:'1%'}">D</b-button>
+                <b-button  @click="toggleSideButton2()" :style="{width:'100%', height:'25%', margin:'1%'}">C</b-button>
+                <b-button  @click="toggleSideButton3()" :style="{width:'100%', height:'25%', margin:'1%'}">B</b-button>
+              </div>
+            </transition>
+          </div>
+        </div>
+        <div>
+          <b-button @click="toggleButtons ()"  
+          :style="{  width:'75px', margin:'1%', position:'absolute', right:'-4px', bottom:'-9px' }"><b-icon-chevron-up/></b-button>
+        </div>
+       
 
-         <div class="buttonDiv3">
-          <b-button @click="toggleButtons ()" squared :style="{width:'100%', height:'100%'}">a</b-button>
-         </div>
-      </div>
-
-
-
-
-
-
+          
+        </div>
 
 
 
@@ -82,7 +107,16 @@ export default {
   },
     toggleButtons() {
       this.$store.commit('toggleButtons')
-    }
+    },
+    toggleSideButton1 () {
+      this.$store.commit('toggleSideButton1')
+    },
+     toggleSideButton2 () {
+      this.$store.commit('toggleSideButton2')
+    },
+     toggleSideButton3 () {
+      this.$store.commit('toggleSideButton3')
+    },
   }
 };
 </script>
@@ -115,7 +149,7 @@ ul {
    -moz-transition-duration: 0.3s;
    -webkit-transition-duration: 0.3s;
    -o-transition-duration: 0.3s;
-   transition-duration: 1.3s;
+   transition-duration: 0.8s;
    -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
    -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
@@ -131,4 +165,9 @@ ul {
    overflow: hidden;
    max-height: 0;
 }
+.botunSide {
+  width:22%; 
+  height:90%;
+   margin:1%
+   }
 </style>
