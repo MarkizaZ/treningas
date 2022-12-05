@@ -1,6 +1,5 @@
 <template>
 <div>
-   {{layerGeomType}}
   <vl-map
     :load-tiles-while-animating="true"
     :load-tiles-while-interacting="true"

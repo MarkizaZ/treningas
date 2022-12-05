@@ -63,8 +63,8 @@
 
         </b-dropdown>
         <b-sidebar v-for="bar in sidebars" :key="bar"  no-header 
-        :title="bar"  :visible="$store.state.sidebar===bar">
-            <SidebarLayers v-if="bar ==='sidebarLayers'" />
+        :title="bar"  :visible="$store.state.sidebar===bar" >
+            <SidebarLayers v-if="bar ==='sidebarLayers'"  />
             <SidebarGlobe :style="{paddingTop:'50px'}" v-if="bar ==='sidebarGlobe'" />
         </b-sidebar>
     </div>

@@ -1,14 +1,8 @@
 <template>
-    <div>
-    <div class="mt-5 mb-1 ml-2 mr-3" :style="{padding:'20px', backgroundColor:'red'}">
-       
-        <b-form-input :value="text" ></b-form-input>
-        ISPIS: {{text}}
-        
-        <b-form-select :options="options"  @input="sidebarOn"></b-form-select>
-    </div>
+    <div >
 
-    <div :style="{position:'absolute', width:'300px', height:'400px', right:'4%', bottom:'35%'}">
+
+    <div :style="{position:'absolute', width:'300px', height:'400px', right:'4%', bottom:'50%'}">
         <b-button>Layers
         </b-button>
         <div :style="{padding:'5px', border:'solid', borderColor:'black'}">
