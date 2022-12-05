@@ -1,7 +1,7 @@
 <template>
     <div >
       
-      <div :style="{position:'absolute', right:'50px', bottom:'150px', width:'300px', height:'152px'}">
+      <div :style="{pointerEvents:$store.state.crtanje ? 'none': 'auto', position:'absolute', right:'50px', bottom:'150px', width:'300px', height:'152px'}">
         
         <transition name="slide">
           <div :style="{left:'0px', top:'0px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton1'>
@@ -35,20 +35,17 @@
           <div :style="{width:'100%', right:'0px', top:'0px', position:'absolute'}">
             <transition name="slide">
               <div  v-show='$store.state.buttons'>
-                <b-button  @click="toggleSideButton1()" :style="{width:'100%', height:'25%', margin:'1%'}">D</b-button>
-                <b-button  @click="toggleSideButton2()" :style="{width:'100%', height:'25%', margin:'1%'}">C</b-button>
-                <b-button  @click="toggleSideButton3()" :style="{width:'100%', height:'25%', margin:'1%'}">B</b-button>
+                <b-button  @click="toggleSideButton1()" class="botunSide2">D</b-button>
+                <b-button  @click="toggleSideButton2()" class="botunSide2">C</b-button>
+                <b-button  @click="toggleSideButton3()" class="botunSide2">B</b-button>
               </div>
             </transition>
           </div>
         </div>
         <div>
-          <b-button @click="toggleButtons ()"  
-          :style="{  width:'75px', margin:'1%', position:'absolute', right:'-4px', bottom:'-9px' }"><b-icon-chevron-up/></b-button>
+          <b-button @click="toggleButtons ()" :style="{  width:'75px', margin:'1%', position:'absolute', right:'-4px', bottom:'-9px' }"><b-icon-chevron-up/></b-button>
         </div>
-       
-
-          
+               <!-- glavni botun-k -->
         </div>
 
 
@@ -65,7 +62,7 @@
             </b-dropdown-item-button>
 
         </b-dropdown>
-        <b-sidebar v-for="bar in sidebars" :key="bar" :width="bar ==='sidebarCrtanje' && '100px'" no-header 
+        <b-sidebar v-for="bar in sidebars" :key="bar"  no-header 
         :title="bar"  :visible="$store.state.sidebar===bar">
             <SidebarLayers v-if="bar ==='sidebarLayers'" />
             <SidebarGlobe :style="{paddingTop:'50px'}" v-if="bar ==='sidebarGlobe'" />
@@ -168,6 +165,11 @@ ul {
 .botunSide {
   width:22%; 
   height:90%;
+   margin:1%
+   }
+   .botunSide2 {
+  width:100%; 
+  height:25%;
    margin:1%
    }
 </style>

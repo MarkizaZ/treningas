@@ -19,7 +19,8 @@
       <vl-source-osm />
     </VlLayerTile>
 
-    <vl-layer-vector v-for="layer in layers" ref="layerRef" :key="layer.value">
+    <vl-layer-vector v-for="layer in layers" ref="layerRef" :key="layer.value" :visible="layer.visible"
+             :opacity="layer.opacity" >
       <vl-source-vector :ident="layer.value" :features.sync="features[layer.value]">
           <vl-style-func :function="styleFucnction">  
           </vl-style-func>
@@ -110,7 +111,11 @@ export default {
           return this.layer === item.value
         })
         return type.geomType
-      }
+    },
+          opacity () {
+      return this.$store.state.opacity
+    },
+
 
   },
   methods: {

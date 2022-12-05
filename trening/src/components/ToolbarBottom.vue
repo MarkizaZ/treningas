@@ -9,7 +9,6 @@
       @click="toggleDraw()" :pressed=$store.state.crtanje variant="outline-secondary" > <b-icon-plus></b-icon-plus></b-button> 
 
 
-
     <div :style="{position:'absolute', left:'15.5%', bottom:'1%'}" >
       <b-dropdown v-b-tooltip.hover.noninteractive  title="Draw select" :disabled="!crtanje" 
        droptop no-caret boundary="window" offset="-5" size="sm" class="drawSelectButton m-2" >
@@ -167,11 +166,13 @@ export default {
     },
         fill (bojaF) {
         this.$store.commit('fillB',bojaF) 
-        },
+    },
         bikone2(bojai) {
         this.$store.commit('ikonabF',bojai) 
     },
-},
+
+
+    },
 }
 </script>
 
