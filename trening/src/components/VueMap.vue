@@ -5,8 +5,11 @@
     :load-tiles-while-interacting="true"
     style="position: absolute;"
     ref="mapRef"
+    id="vueLayersMap"
     :default-controls="{zoom: false}"
     :default-interactions="{shiftDragZoom:false}"
+    tabindex="0"
+    @click="bla"
   >
     <vl-view
        ref="viewRef"
@@ -20,10 +23,15 @@
 
     <vl-layer-vector v-for="layer in layers" ref="layerRef" :key="layer.value" :visible="layer.visible"
              :opacity="layer.opacity" >
-      <vl-source-vector :ident="layer.value" :features.sync="features[layer.value]">
-          <vl-style-func :function="styleFucnction">  
-          </vl-style-func>
-      </vl-source-vector>
+      <vl-source-vector :ident="layer.value" :features.sync="features[layer.value]" />
+          <vl-style>
+            <vl-style-circle>
+              <vl-style-fill :color="layer.fillColor"></vl-style-fill>
+              <vl-style-stroke :color="layer.strokeColor"></vl-style-stroke>
+            </vl-style-circle>
+            <vl-style-fill :color="layer.fillColor"></vl-style-fill>
+            <vl-style-stroke :color="layer.strokeColor"></vl-style-stroke>
+          </vl-style>
     </vl-layer-vector>
 
     <vl-interaction-select 
@@ -32,9 +40,12 @@
     @select="select"
     />
       
-    <vl-interaction-draw  v-if="paliCrtanje"
+    <vl-interaction-draw  
+    ref="drawRef"
+    v-if="paliCrtanje"
     v-bind:source="$store.state.layer"
     v-bind:type="layerGeomType"
+
     @drawend="krajCrtanja"
     />
     <vl-interaction-snap v-if="snap"
@@ -58,7 +69,6 @@ import {cloneDeep as _cloneDeep} from 'lodash'
 import Vue from "vue";
 import VueLayers from "vuelayers";
 import "vuelayers/dist/vuelayers.css"; // needs css-loader
-import { Fill, Stroke, Style, Circle } from 'ol/style'
 
 Vue.use(VueLayers);
 export default {
@@ -114,8 +124,16 @@ export default {
           opacity () {
       return this.$store.state.opacity
     },
+    undoTrigger() {
+      return this.$store.state.undoTrigger
+    }
 
 
+  },
+  watch: {
+     undoTrigger(){
+      this.undo()
+     }
   },
   methods: {
     zoomChange (){
@@ -123,21 +141,23 @@ export default {
         console.log(this.$refs.mapRef)
     },
       krajCrtanja (e) {
-        console.log(e)
+        console.log(e.feature.getGeometry())
         e.feature.set('color', this.boja)
         e.feature.set('color2', this.boja2)
     },
-    styleFucnction (feature) {
-      const color = feature.get('color')
-      const color2 = feature.get('color2')
-      const fill = new Fill({color: color2})
-      const stroke = new Stroke({color: color})
-      return [
-        new Style({
-           image:new Circle({fill, stroke, radius:3}),
-           fill,
-           stroke})];
+    undo () {
+      // this.$refs.drawRef.removeLastPoint()
+      console.log(this.$refs.drawRef)
+      this.$refs.drawRef.$interaction.handleEvent({
+              type:'click', 
+              coordinate:[14852020.343923, -7964126.851089],
+
+              })
+    }, 
+    bla(e){
+      console.log('asdasdasdas', e)
     }
+
   }
 };
 </script>

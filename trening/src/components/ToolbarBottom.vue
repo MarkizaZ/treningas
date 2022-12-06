@@ -3,45 +3,24 @@
        
       <b-form-select :value="$store.state.layer" :options="$store.state.layers" 
         @input="toggleLayer" 
-      :style="{position:'absolute', left:'2%', bottom:'30%', height:'22px', width:'100px', fontSize:'13px'}"></b-form-select>
+      :style="{position:'absolute', left:'2%', bottom:'30%', height:'22px', width:'100px', fontSize:'13px'}"
+      >      <template #first>
+        <b-form-select-option :value="null" disabled>- Select layer -</b-form-select-option>
+      </template>
+      </b-form-select>
        
       <b-button v-b-tooltip.hover.noninteractive title="Toggle draw (press Shift for Fehand Draw)" size="sm" :style="{position:'absolute', left:'12%', bottom:'18%'}" 
       @click="toggleDraw()" :pressed=$store.state.crtanje variant="outline-secondary" > <b-icon-plus></b-icon-plus></b-button> 
 
+      <b-button size="sm" :style="{position:'absolute', left:'16%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
 
-    <div :style="{position:'absolute', left:'15.5%', bottom:'1%'}" >
-      <b-dropdown v-b-tooltip.hover.noninteractive  title="Draw select" :disabled="!crtanje" 
-       droptop no-caret boundary="window" offset="-5" size="sm" class="drawSelectButton m-2" >
-        <template #button-content >
-          <b-icon :icon="$store.state.ikona" ></b-icon>
-        </template>
-        <div >
-        <b-button  v-b-tooltip.hover.noninteractive id="but1"  title="Point draw" class="m-1" size="sm" @click="vrstaIkone('dot');vrstaCrtanja('Point')" >
-           <b-icon-dot></b-icon-dot> </b-button>
-        </div>
-        <div>
-        <b-button v-b-tooltip.hover.noninteractive title="Line draw" class="m-1" size="sm"  @click="vrstaIkone('pencil-square');vrstaCrtanja('LineString')" >
-            <b-icon-pencil-square></b-icon-pencil-square></b-button>
-        </div>
-        <div>
-        <b-button v-b-tooltip.hover.noninteractive title="Polygon draw" class="m-1" size="sm" @click="vrstaIkone('hexagon');vrstaCrtanja('Polygon')" >
-            <b-icon-hexagon></b-icon-hexagon></b-button>
-        </div>
-        <div>
-        <b-button v-b-tooltip.hover.noninteractive title="Circle draw" class="m-1" size="sm" @click="vrstaIkone('circle');vrstaCrtanja('Circle')" >
-            <b-icon-circle></b-icon-circle></b-button>
-        </div>
-      </b-dropdown>
-    </div>
+      <b-button size="sm" :style="{position:'absolute', left:'20%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :pressed.sync="myToggle2" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
 
-      <b-button size="sm" :style="{position:'absolute', left:'20%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'24%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed=$store.state.modify variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
 
-      <b-button size="sm" :style="{position:'absolute', left:'24%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :pressed.sync="myToggle2" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'28%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Undo" @click="removeLastPoint()"  variant="outline-secondary" > <b-icon-arrow-return-left></b-icon-arrow-return-left></b-button>
 
-      <b-button size="sm" :style="{position:'absolute', left:'28%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed=$store.state.modify variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
-
-
-    <div :style="{position:'absolute', left:'31.5%', bottom:'1%'}">
+    <!-- <div :style="{position:'absolute', left:'27.5%', bottom:'1%'}">
     <b-dropdown id="dropdown-2"  class="drawSelectButton m-2" size="sm" boundary="window" v-b-tooltip.hover.noninteractive title="Stroke color"
      droptop no-caret :variant="$store.state.bojaIkone">
         <template #button-content >
@@ -53,7 +32,7 @@
          <div> <b-button @click="red('blue'), bikone('primary')" variant="primary" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
      </b-dropdown>
     </div>
-    <div :style="{position:'absolute', left:'35.5%', bottom:'1%'}">
+    <div :style="{position:'absolute', left:'31.5%', bottom:'1%'}">
          <b-dropdown id="dropdown-3"  class="drawSelectButton m-2" size="sm" boundary="window" v-b-tooltip.hover.noninteractive title="Fill color"
           droptop no-caret :variant="$store.state.bojaIkone2">
         <template #button-content >
@@ -64,7 +43,7 @@
          <div> <b-button @click="fill('green'), bikone2('success')" variant="success" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
          <div> <b-button @click="fill('lightblue'), bikone2('info')" variant="info" class="botun" size="sm"> <b-icon-paint-bucket ></b-icon-paint-bucket></b-button> </div>
      </b-dropdown>
-    </div>
+    </div> -->
 
     </div>
 </template>
@@ -154,6 +133,8 @@ export default {
         toggleLayer(layer){
           console.log(layer)
         this.$store.commit('setActiveLayer',layer) 
+        this.$store.commit('visibleLayerDraw',layer) 
+
     },
         vrstaIkone(vrsta) {
           this.$store.commit('icon',vrsta) 
@@ -170,6 +151,9 @@ export default {
         bikone2(bojai) {
         this.$store.commit('ikonabF',bojai) 
     },
+        removeLastPoint() {
+        this.$store.commit('undo') 
+  }
 
 
     },

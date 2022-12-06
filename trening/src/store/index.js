@@ -9,38 +9,25 @@ export default new Vuex.Store({
     sidebars: ['sidebarLayers', 'sidebarGlobe'],
     toolbar: false,
     layers: [
-      { value: 'Layer 1', text: 'Layer 1', geomType: 'Point', visible: true, opacity:1 },
-      { value: 'Layer 2', text: 'Layer 2', geomType: 'LineString', visible: true, opacity:1   },
-      { value: 'Layer 3', text: 'Layer 3', geomType: 'Polygon', visible: true, opacity:1   },
-      { value: 'Layer 4', text: 'Layer 4', geomType: 'Circle', visible: true, opacity:1   }
+      { value: 'Layer 1', text: 'Layer 1', geomType: 'Point', visible: false, opacity:1 , fillColor: [0,0,255,1], strokeColor: [0,0,255,1]},
+      { value: 'Layer 2', text: 'Layer 2', geomType: 'LineString', visible: false, opacity:1, fillColor: [255,255,255,1] , strokeColor: [255,255,255,1]  },
+      { value: 'Layer 3', text: 'Layer 3', geomType: 'Polygon', visible: false, opacity:1, fillColor: [255,255,255,1], strokeColor: [255,255,255,1]   },
+      { value: 'Layer 4', text: 'Layer 4', geomType: 'Circle', visible: false, opacity:1, fillColor: [255,255,255,1] , strokeColor: [255,255,255,1]  }
     ],
-    array1: ['jedan', 'dva', 'tri', 'četiri', 'pet', 'šest' ],
-    array2: ['jedan 1', 'dva 2', 'tri 3', 'četiri 4', 'pet 5', 'šest 6' ],
-    array3: [31, 12, 63, 84, 5, 96, 73],
-    object1: { ime: 'aa', prezime: 'qq', dob: 21},
-    fromentriesPr: [
-    ['ime' ,'jedan'],
-    ['ime2' ,'jedan2'],
-    ['ime3' ,'jedan3']
-    ],
-    layer:'Layer 1',
+    layer:null,
     crtanje: false,
     vrstaCrtanja:'LineString',
     selectcrt:false,
     select:false,
     snap:false,
     modify:false,
-    boja: 'black',
-    boja2: 'grey',
-    bojaIkone:'dark',
-    bojaIkone2:'secondary',
     text: '',
     ikona: 'pencil-square',
     ikona2: 'eye-slash',
     buttons: false,
-    sideButton1:false,
-    sideButton2:false,
-    sideButton3:false,
+    sideButton:'',
+    layersTable:true,
+    undoTrigger:false,
 
   }),
 
@@ -49,6 +36,10 @@ export default new Vuex.Store({
     setActiveSidebar(state, sidebar) {
       if(state.sidebar === sidebar) {
         state.sidebar = ''
+      }
+      else if(state.toolbar === true) {
+        state.toolbar = false
+        state.sidebar = sidebar
       }
       else {state.sidebar = sidebar}
     },
@@ -74,14 +65,9 @@ export default new Vuex.Store({
     icon (state, vrsta) {
       state.ikona = vrsta
     },
-    boja (state, boja ) {
-      state.boja = boja
-    },
-    ikonab (state, boja) {
-      state.bojaIkone = boja
-    },
     setActiveToolbar (state) {
       state.toolbar = !state.toolbar
+      state.sidebar = ''
       if(state.toolbar===false){
         state.crtanje = false
       }
@@ -94,26 +80,16 @@ export default new Vuex.Store({
     },
     toggleButtons (state) {
       state.buttons = !state.buttons
-      if(state.sideButton1===true || state.sideButton2===true
-        || state.sideButton3 === true){
-        state.sideButton1 = false
-        state.sideButton2 = false
-        state.sideButton3 = false
+      if(state.sideButton !== ''){
+        state.sideButton = false
+
       }
     },
-    toggleSideButton1 (state) {
-      state.sideButton1 = !state.sideButton1
-    },
-    toggleSideButton2 (state) {
-      state.sideButton2 = !state.sideButton2
-    },
-    toggleSideButton3 (state) {
-      state.sideButton3 = !state.sideButton3
-    },
+  
     setVisibleLayers (state, layers) {
       const visibleLayers = layers.map(item=>item.text)
       state.layers.forEach(item=> {
-          item.visible=visibleLayers.includes(item.text)
+          item.visible=visibleLayers.includes(item.text) 
       })
       
 
@@ -140,7 +116,34 @@ export default new Vuex.Store({
     setOpacity(state, value) {
       const temp = state.layers.find(item => item.text === value.layer)
       temp.opacity = Number(value.event)
-    } 
+    },
+    toggleSideButton(state, value) {
+      if(state.sideButton === value) {
+        state.sideButton = ''
+      }
+      else {state.sideButton = value}    
+    },
+    toggleLayerTb (state) {
+      state.layersTable = !state.layersTable
+    },
+    setLayerColor (state, objekt) {
+      console.log(objekt)
+      const layer = state.layers.find(item => objekt.layer === item.value)
+      if (!layer) {
+
+        return
+      } 
+      console.log(layer)
+      layer[objekt.fillStroke] = objekt.rgbaSortedValues
+      console.log(objekt.fillStroke)
+    },
+    visibleLayerDraw(state, layer) {
+      const visibleLayers = state.layers.find(item=>item.text == layer)
+      visibleLayers.visible = true
+    },
+    undo (state) {
+      state.undoTrigger = !state.undoTrigger
+    }
 
   },
   actions: {},

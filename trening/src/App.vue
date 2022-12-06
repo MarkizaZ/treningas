@@ -39,7 +39,7 @@ export default {
       },
       fuck() {
         console.log('aasdas')
-      }
+      },
    },
   };
 </script>

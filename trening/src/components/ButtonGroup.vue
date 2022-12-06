@@ -4,7 +4,7 @@
       <div :style="{pointerEvents:$store.state.crtanje ? 'none': 'auto', position:'absolute', right:'50px', bottom:'150px', width:'300px', height:'152px'}">
         
         <transition name="slide">
-          <div :style="{left:'0px', top:'0px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton1'>
+          <div :style="{left:'0px', top:'0px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton === "1"'>
             <b-button class="botunSide" >d1</b-button>
             <b-button  class="botunSide">d2</b-button>
             <b-button  class="botunSide">d3</b-button>
@@ -12,19 +12,19 @@
           </div>
         </transition>
         <transition name="slide">
-        <div :style="{ left:'0px', top:'40px', width:'75%', height:'25%', position:'absolute'}" v-show='$store.state.sideButton2'>
-            <b-button  class="botunSide">d1</b-button>
-            <b-button  class="botunSide">d2</b-button>
-            <b-button  class="botunSide">d3</b-button>
-            <b-button  class="botunSide">d4</b-button>
+        <div :style="{ left:'0px', top:'40px', width:'75%', height:'25%', position:'absolute'}" v-show='$store.state.sideButton === "2"'>
+            <b-button  class="botunSide">c1</b-button>
+            <b-button  class="botunSide">c2</b-button>
+            <b-button  class="botunSide">c3</b-button>
+            <b-button  class="botunSide">c4</b-button>
         </div>
         </transition>
         <transition name="slide">
-        <div :style="{ left:'0px', top:'80px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton3'>
-            <b-button  class="botunSide">d1</b-button>
-            <b-button  class="botunSide">d2</b-button>
-            <b-button  class="botunSide">d3</b-button>
-            <b-button  class="botunSide">d4</b-button>
+        <div :style="{ left:'0px', top:'80px', width:'75%', height:'25%',  position:'absolute'}" v-show='$store.state.sideButton === "3"'>
+            <b-button  class="botunSide">b1</b-button>
+            <b-button  class="botunSide">b2</b-button>
+            <b-button  class="botunSide">b3</b-button>
+            <b-button  class="botunSide">b4</b-button>
         </div>
         </transition>
 
@@ -35,9 +35,9 @@
           <div :style="{width:'100%', right:'0px', top:'0px', position:'absolute'}">
             <transition name="slide">
               <div  v-show='$store.state.buttons'>
-                <b-button  @click="toggleSideButton1()" class="botunSide2">D</b-button>
-                <b-button  @click="toggleSideButton2()" class="botunSide2">C</b-button>
-                <b-button  @click="toggleSideButton3()" class="botunSide2">B</b-button>
+                <b-button  @click="toggleSideButton('1')" class="botunSide2">D</b-button>
+                <b-button  @click="toggleSideButton('2')" class="botunSide2">C</b-button>
+                <b-button  @click="toggleSideButton('3')" class="botunSide2">B</b-button>
               </div>
             </transition>
           </div>
@@ -105,15 +105,10 @@ export default {
     toggleButtons() {
       this.$store.commit('toggleButtons')
     },
-    toggleSideButton1 () {
-      this.$store.commit('toggleSideButton1')
+    toggleSideButton (value) {
+      this.$store.commit('toggleSideButton',value)
     },
-     toggleSideButton2 () {
-      this.$store.commit('toggleSideButton2')
-    },
-     toggleSideButton3 () {
-      this.$store.commit('toggleSideButton3')
-    },
+
   }
 };
 </script>
