@@ -22,6 +22,8 @@
 
       <b-button size="sm" :style="{position:'absolute', left:'32%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Translate" @click="toggleTranslate()"  :pressed="$store.state.translate" variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
 
+      <b-button @click="logger">ASD</b-button>
+
 
     <!-- <div :style="{position:'absolute', left:'27.5%', bottom:'1%'}">
     <b-dropdown id="dropdown-2"  class="drawSelectButton m-2" size="sm" boundary="window" v-b-tooltip.hover.noninteractive title="Stroke color"
@@ -163,6 +165,9 @@ export default {
     },
         toggleTranslate() {
           this.$store.commit('translate')
+        },
+        logger(){
+          console.log(this.$store.state.layers)
         }
 
 

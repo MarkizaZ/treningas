@@ -2,6 +2,21 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
+class Layer {
+  constructor(object){
+    this.value = object.value || 'Layer'+Math.random(10000000)
+    this.text=object.text || this.value
+    this.geomType=object.geomType || 'LineString'
+    this.visible=object.visible || false
+    this.opacity=object.opacity || 1
+    this.fillColor=object.fillColor || 'lime' [255,0,0]
+    this.strokeColor=object.strokeColor || 'lime'
+    }
+    getFillColor() {
+      return this.fillColor
+    }
+}
+
 
 export default new Vuex.Store({
   state: () => ({
@@ -9,10 +24,10 @@ export default new Vuex.Store({
     sidebars: ['sidebarLayers', 'sidebarGlobe'],
     toolbar: false,
     layers: [
-      { value: 'Layer 1', text: 'Layer 1', geomType: 'Point', visible: false, opacity:1 , fillColor: 'red', strokeColor: 'black'},
-      { value: 'Layer 2', text: 'Layer 2', geomType: 'LineString', visible: false, opacity:1, fillColor: 'green' , strokeColor: 'black'  },
-      { value: 'Layer 3', text: 'Layer 3', geomType: 'Polygon', visible: false, opacity:1, fillColor: 'blue', strokeColor: 'red'   },
-      { value: 'Layer 4', text: 'Layer 4', geomType: 'Circle', visible: false, opacity:1, fillColor: 'yellow' , strokeColor: 'blue' }
+      new Layer({value: 'Layer1', geomType:'Point'}),
+      new Layer({value: 'Layer2', geomType:'LineString'}),
+      new Layer({value: 'Layer3', geomType:'Polygon'}),
+      new Layer({value: 'Layer4', geomType:'Circle'}),
     ],
     layer:null,
     crtanje: false,
@@ -47,10 +62,11 @@ export default new Vuex.Store({
       if(state.layer == null) {
         return
       }
-      else if (state.select == true || state.modify == true || state.translate == true) {
+      else if (state.select == true || state.modify == true || state.translate == true || state.snap == true) {
         state.select = false
         state.modify = false
         state.translate = false
+        state.snap = false
         state.crtanje = !state.crtanje
       }
       else state.crtanje = !state.crtanje
@@ -167,7 +183,7 @@ export default new Vuex.Store({
       if(state.crtanje == false) {
         return
       }
-      else if (state.layer == 'Layer 2' || state.layer == 'Layer 3' ) {
+      else if (state.layer == 'Layer2' || state.layer == 'Layer3' ) {
       state.undoTrigger = !state.undoTrigger }
       else return
     },
@@ -182,6 +198,9 @@ export default new Vuex.Store({
         state.translate = !state.translate
       }
       else state.translate = !state.translate
+    },
+    addNewLayer(state, object){
+      state.layers.push(new Layer(object))
     }
 
 
