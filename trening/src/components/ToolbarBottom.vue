@@ -3,22 +3,25 @@
        
       <b-form-select :value="$store.state.layer" :options="$store.state.layers" 
         @input="toggleLayer" 
-      :style="{position:'absolute', left:'2%', bottom:'30%', height:'22px', width:'100px', fontSize:'13px'}"
+      :style="{position:'absolute', left:'1%', bottom:'30%', height:'22px', width:'100px', fontSize:'13px'}"
       >      <template #first>
         <b-form-select-option :value="null" disabled>- Select layer -</b-form-select-option>
       </template>
       </b-form-select>
        
       <b-button v-b-tooltip.hover.noninteractive title="Toggle draw (press Shift for Fehand Draw)" size="sm" :style="{position:'absolute', left:'12%', bottom:'18%'}" 
-      @click="toggleDraw()" :pressed=$store.state.crtanje variant="outline-secondary" > <b-icon-plus></b-icon-plus></b-button> 
+      @click="toggleDraw()" :pressed="$store.state.crtanje" variant="outline-secondary" > <b-icon-plus></b-icon-plus></b-button> 
 
-      <b-button size="sm" :style="{position:'absolute', left:'16%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed.sync="myToggle" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'24%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle select" @click="toggleSelect()" :pressed="$store.state.select" variant="outline-secondary" > <b-icon-hand-index></b-icon-hand-index></b-button>
 
-      <b-button size="sm" :style="{position:'absolute', left:'20%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :pressed.sync="myToggle2" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'20%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle snap" @click="toggleSnap()" :disabled="!$store.state.crtanje" :pressed="$store.state.snap" variant="outline-secondary" > <b-icon-arrows-angle-contract></b-icon-arrows-angle-contract></b-button>
 
-      <b-button size="sm" :style="{position:'absolute', left:'24%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed=$store.state.modify variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'28%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Toggle modify" @click="toggleModify()" :pressed="$store.state.modify" variant="outline-secondary" > <b-icon-hammer></b-icon-hammer></b-button>
 
-      <b-button size="sm" :style="{position:'absolute', left:'28%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Undo" @click="removeLastPoint()"  variant="outline-secondary" > <b-icon-arrow-return-left></b-icon-arrow-return-left></b-button>
+      <b-button size="sm" :style="{position:'absolute', left:'16%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Undo" @click="removeLastPoint()" :disabled="!$store.state.crtanje"  variant="outline-secondary" > <b-icon-arrow-return-left></b-icon-arrow-return-left></b-button>
+
+      <b-button size="sm" :style="{position:'absolute', left:'32%', bottom:'18%'}"  v-b-tooltip.hover.noninteractive title="Translate" @click="toggleTranslate()"  :pressed="$store.state.translate" variant="outline-secondary" > <b-icon-arrows-move></b-icon-arrows-move></b-button>
+
 
     <!-- <div :style="{position:'absolute', left:'27.5%', bottom:'1%'}">
     <b-dropdown id="dropdown-2"  class="drawSelectButton m-2" size="sm" boundary="window" v-b-tooltip.hover.noninteractive title="Stroke color"
@@ -59,6 +62,7 @@ export default {
     return {    
         myToggle: false,
         myToggle2: false,
+        myToggle3: false,
         checked: false,
         selected: 'LineString',
         options: [
@@ -93,6 +97,9 @@ export default {
     },
     modify(){
     return this.$store.state.modify
+    },
+    translate() {
+    return this.$store.state.translate
     },
     layer(){
         return this.$store.state.layer
@@ -153,7 +160,10 @@ export default {
     },
         removeLastPoint() {
         this.$store.commit('undo') 
-  }
+    },
+        toggleTranslate() {
+          this.$store.commit('translate')
+        }
 
 
     },

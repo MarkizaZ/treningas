@@ -9,10 +9,10 @@ export default new Vuex.Store({
     sidebars: ['sidebarLayers', 'sidebarGlobe'],
     toolbar: false,
     layers: [
-      { value: 'Layer 1', text: 'Layer 1', geomType: 'Point', visible: false, opacity:1 , fillColor: [0,0,255,1], strokeColor: [0,0,255,1]},
-      { value: 'Layer 2', text: 'Layer 2', geomType: 'LineString', visible: false, opacity:1, fillColor: [255,255,255,1] , strokeColor: [255,255,255,1]  },
-      { value: 'Layer 3', text: 'Layer 3', geomType: 'Polygon', visible: false, opacity:1, fillColor: [255,255,255,1], strokeColor: [255,255,255,1]   },
-      { value: 'Layer 4', text: 'Layer 4', geomType: 'Circle', visible: false, opacity:1, fillColor: [255,255,255,1] , strokeColor: [255,255,255,1]  }
+      { value: 'Layer 1', text: 'Layer 1', geomType: 'Point', visible: false, opacity:1 , fillColor: 'red', strokeColor: 'black'},
+      { value: 'Layer 2', text: 'Layer 2', geomType: 'LineString', visible: false, opacity:1, fillColor: 'green' , strokeColor: 'black'  },
+      { value: 'Layer 3', text: 'Layer 3', geomType: 'Polygon', visible: false, opacity:1, fillColor: 'blue', strokeColor: 'red'   },
+      { value: 'Layer 4', text: 'Layer 4', geomType: 'Circle', visible: false, opacity:1, fillColor: 'yellow' , strokeColor: 'blue' }
     ],
     layer:null,
     crtanje: false,
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     sideButton:'',
     layersTable:true,
     undoTrigger:false,
-
+    translate:false,
   }),
 
   getters:{},
@@ -41,23 +41,49 @@ export default new Vuex.Store({
         state.toolbar = false
         state.sidebar = sidebar
       }
-      else {state.sidebar = sidebar}
+      else state.sidebar = sidebar
     },
     paliCrtanje(state){
-      state.crtanje = !state.crtanje
-    },
-    izborCrtanja(state, selectcrt) {
-      state.vrstaCrtanja = selectcrt
+      if(state.layer == null) {
+        return
+      }
+      else if (state.select == true || state.modify == true || state.translate == true) {
+        state.select = false
+        state.modify = false
+        state.translate = false
+        state.crtanje = !state.crtanje
+      }
+      else state.crtanje = !state.crtanje
     },
     paliSelect(state) {
-      state.select = !state.select
+      if(state.layer == null) {
+        return
+      }
+      else if (state.crtanje == true || state.modify == true || state.translate == true) {
+        state.crtanje = false
+        state.modify = false
+        state.translate = false
+        state.select = !state.select
+      }
+      else state.select = !state.select
     },
     paliSnap (state){
-      state.snap = !state.snap
+      if(state.layer == null) {
+        return
+      }
+      else state.snap = !state.snap
     },
     paliModify (state){
-      state.modify = !state.modify
-      console.log(state.modify)
+      if(state.layer == null) {
+        return
+      }
+      else if (state.crtanje == true || state.select == true || state.translate == true) {
+        state.crtanje = false
+        state.select = false
+        state.translate = false
+        state.modify = !state.modify
+      }
+      else  state.modify = !state.modify
     },
     setActiveLayer(state, layer) {
       state.layer = layer
@@ -127,23 +153,37 @@ export default new Vuex.Store({
       state.layersTable = !state.layersTable
     },
     setLayerColor (state, objekt) {
-      console.log(objekt)
       const layer = state.layers.find(item => objekt.layer === item.value)
       if (!layer) {
-
         return
       } 
-      console.log(layer)
       layer[objekt.fillStroke] = objekt.rgbaSortedValues
-      console.log(objekt.fillStroke)
     },
     visibleLayerDraw(state, layer) {
       const visibleLayers = state.layers.find(item=>item.text == layer)
       visibleLayers.visible = true
     },
     undo (state) {
-      state.undoTrigger = !state.undoTrigger
+      if(state.crtanje == false) {
+        return
+      }
+      else if (state.layer == 'Layer 2' || state.layer == 'Layer 3' ) {
+      state.undoTrigger = !state.undoTrigger }
+      else return
+    },
+    translate(state) {
+      if(state.layer == null) {
+        return
+      }
+      else if (state.crtanje == true || state.select == true || state.modify == true) {
+        state.crtanje = false
+        state.select = false
+        state.modify = false
+        state.translate = !state.translate
+      }
+      else state.translate = !state.translate
     }
+
 
   },
   actions: {},

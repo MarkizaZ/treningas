@@ -8,8 +8,6 @@
     id="vueLayersMap"
     :default-controls="{zoom: false}"
     :default-interactions="{shiftDragZoom:false}"
-    tabindex="0"
-    @click="bla"
   >
     <vl-view
        ref="viewRef"
@@ -59,6 +57,10 @@
      :multi='true'
       />
 
+      +<vl-Interaction-translate v-if="translate"
+      v-bind:source="$store.state.layer"
+      />
+
   </vl-map> 
 </div>
 </template>
@@ -87,6 +89,7 @@ export default {
   }, 
   mounted(){
   },
+
   computed: {
       paliCrtanje() {
       return this.$store.state.crtanje
@@ -103,6 +106,9 @@ export default {
       modify() {
         return this.$store.state.modify
     },
+      translate() {
+      return this.$store.state.translate
+    },
       layer() {
         return this.$store.state.layer
     },
@@ -116,24 +122,33 @@ export default {
       return this.$store.state.boja2
     },
       layerGeomType () {
-        const type = this.layers.find((item) => {
-          return this.layer === item.value
+      const type = this.layers.find((item) => {
+        return this.layer === item.value
         })
         return type.geomType
     },
-          opacity () {
+      opacity () {
       return this.$store.state.opacity
     },
     undoTrigger() {
       return this.$store.state.undoTrigger
-    }
+    },
+
 
 
   },
   watch: {
      undoTrigger(){
       this.undo()
-     }
+     },
+
+    layers: {
+      handler(){
+      console.log(this.layers[0].fillColor)
+      },
+      deep:true
+    }
+
   },
   methods: {
     zoomChange (){
@@ -142,21 +157,18 @@ export default {
     },
       krajCrtanja (e) {
         console.log(e.feature.getGeometry())
-        e.feature.set('color', this.boja)
-        e.feature.set('color2', this.boja2)
     },
     undo () {
-      // this.$refs.drawRef.removeLastPoint()
-      console.log(this.$refs.drawRef)
-      this.$refs.drawRef.$interaction.handleEvent({
-              type:'click', 
-              coordinate:[14852020.343923, -7964126.851089],
+        this.$refs.drawRef.removeLastPoint()
+      // console.log(this.$refs.drawRef)
+      // this.$refs.drawRef.$interaction.handleEvent({
+      //         type:'click', 
+      //         coordinate:[14852020.343923, -7964126.851089],
 
-              })
+      //         })
+
     }, 
-    bla(e){
-      console.log('asdasdasdas', e)
-    }
+
 
   }
 };

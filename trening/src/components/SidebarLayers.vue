@@ -144,13 +144,10 @@ export default {
         this.$store.commit('toggleLayerTb')
       },
       changeColor(e, layer, fillStroke) {
-        console.log(Object.entries(e.rgba))
         const rgba =Object.entries(e.rgba)
         const rgbaSorted = rgba.sort().reverse()
-        const rgbaSortedValues = rgbaSorted.map(item => item[1])
-        console.log(rgbaSortedValues)
+        const rgbaSortedValues = 'rgba('+rgbaSorted.map(item => item[1]).join()+')'
         this.$store.commit('setLayerColor',{layer, rgbaSortedValues, fillStroke})
-        console.log(e,layer, fillStroke)
 
       }
 
