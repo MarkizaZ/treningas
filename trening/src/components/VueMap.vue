@@ -22,17 +22,17 @@
       <vl-source-osm />
     </VlLayerTile>
 
-    <vl-layer-vector v-for="layer in layers" ref="layerRef" projection="EPSG:3765" :key="layer.value" :visible="layer.visible"
-             :opacity="layer.opacity" >
-      <vl-source-vector :ident="layer.value" :features="features[layer.value]" />
-          <vl-style>
+    <vl-layer-vector  ref="layerRef" projection="EPSG:3765" key="Layer2" name="Layer2" id="Layer2"
+             >
+      <vl-source-vector ident="Layer2" :features.sync="features" />
+          <!-- <vl-style>
             <vl-style-circle>
               <vl-style-fill :color="layer.fillColor"></vl-style-fill>
               <vl-style-stroke :color="layer.strokeColor"></vl-style-stroke>
             </vl-style-circle>
             <vl-style-fill :color="layer.fillColor"></vl-style-fill>
             <vl-style-stroke :color="layer.strokeColor"></vl-style-stroke>
-          </vl-style>
+          </vl-style> -->
     </vl-layer-vector>
 
     <vl-interaction-select 
@@ -44,7 +44,7 @@
     <vl-interaction-draw  
     ref="drawRef"
     v-if="paliCrtanje"
-    :source="$store.state.layer"
+    source="Layer2"
     :type="layerGeomType"
     :stop-click="true"
 
@@ -57,19 +57,19 @@
       id="modify1"
       v-if="modify"
       :pixel-tolerance="20"
-      :source="this.layer"
+      source="Layer2"
       @modifyend="modifyEnd"
       @modifystart="modifyStart" />
-
+<!-- 
      <VlInteractionSelect 
      v-if="select"
      :hitTolerance="4"
      :multi='true'
-      /> 
+      /> -->
 
-       <vl-Interaction-translate v-if="translate"
+      <!-- <vl-Interaction-translate v-if="translate"
       v-bind:source="$store.state.layer"
-      /> 
+      /> -->
 
   </vl-map> 
 </div>
@@ -91,9 +91,9 @@ export default {
   data() {
     return {
       zoom: 2,
-      center: [500000, 5000000],
+      center: [500000, 500000],
       rotation: 0,
-      features: {}
+      features: []
     };
   },
   beforeMount() {
